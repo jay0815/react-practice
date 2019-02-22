@@ -1,6 +1,7 @@
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
+const MiniCssExtractPlugin = require("mini-css-extract-plugin")
 
 module.exports = {
   mode: 'development',
@@ -12,7 +13,9 @@ module.exports = {
     ],
     vendor: [
       'react',
-      'react-dom'
+      'react-dom',
+      'react-router-dom',
+      'react-loadable'
     ]
   },
   output: {
@@ -21,8 +24,16 @@ module.exports = {
     // 输出目录的配置，模板、样式、脚本、图片等资源的路径配置都相对于它.
     publicPath: '/',
     // 模板、样式、脚本、图片等资源对应的server上的路径
-    filename: 'index.js'
+    filename: '[name].js'
     // 命名生成的JS
+  },
+  optimization: {
+    splitChunks: {
+      chunks: 'all',
+      name (module) {
+        return 'vendor';
+      }
+    }
   },
   plugins: [
     new HtmlWebpackPlugin({
@@ -43,7 +54,13 @@ module.exports = {
     new webpack.LoaderOptionsPlugin({
       debug: true
     }),
-    new webpack.HotModuleReplacementPlugin()
+    new webpack.HotModuleReplacementPlugin(),
+    new MiniCssExtractPlugin({
+      // Options similar to the same options in webpackOptions.output
+      // both options are optional
+      filename: "[name].css",
+      chunkFilename: "[id].css"
+    })
   ],
   module: {
     rules: [
@@ -52,6 +69,19 @@ module.exports = {
         exclude: /(node_modules)/,
         use: [{
           loader: 'babel-loader'
+        }]
+      },
+      {
+        test: /\.less$/,
+        use: [
+          { loader: "style-loader" },
+          {
+            loader: MiniCssExtractPlugin.loader
+          },
+          {
+            loader: "css-loader" // translates CSS into CommonJS
+          }, {
+            loader: "less-loader" // compiles Less to CSS
         }]
       }
     ]
