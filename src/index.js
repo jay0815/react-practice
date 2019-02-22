@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 // AppContainer 是一个 HMR 必须的包裹(wrapper)组件
 import { AppContainer } from 'react-hot-loader';
-import App from './Containers/App/index.js';
+import RouterConfig from './Router/index.js'
 
 const render = (Component) => {
   ReactDOM.render(
@@ -12,7 +12,7 @@ const render = (Component) => {
     document.getElementById('root'));
 };
 
-render(App);
+render(RouterConfig);
 
 // if (module.hot) {
 //   /**

@@ -60,6 +60,7 @@ module.exports = {
     contentBase: path.join(__dirname, "dist"),
     port: 5000,
     open: 'Chrome',
-    hot: true
+    hot: true,
+    historyApiFallback: true
   }
 };

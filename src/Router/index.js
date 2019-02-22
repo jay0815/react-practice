@@ -1,24 +1,19 @@
+import React from 'react';
 import {
   BrowserRouter as Router,
   Route,
-  Redirect,
-  Provider
+  Switch
 } from "react-router-dom";
-import App from './Containers/App/index.js';
+import App from '../Containers/App/index.js';
+import Step2 from '../Containers/Step2/index.js';
 
 
-const RouterConfig = (store) =>
-  <Provider store={store}>
-    <Switch>
-      <Route exact path='/' component={App} />
-      {/* <Route exact path='/login' component={createComponent(Login)} /> */}
-      {/* <PrivateRoute path='/Entry' component={createComponent(Entry)} /> */}
-      {/* <Route
-        render={() => {
-          return (
-            <Redirect to='/' />
-          );
-        }}
-      /> */}
-    </Switch>
-  </Provider>
+const RouterConfig = () =>
+    <Router>
+      <Switch>
+        <Route exact path='/' component={App} />
+        <Route exact path='/Step2' component={Step2} />
+      </Switch>
+    </Router>
+
+export default RouterConfig;
