@@ -73,13 +73,17 @@ module.exports = {
       },
       {
         test: /\.less$/,
+        exclude: /(node_modules)/,
         use: [
-          { loader: "style-loader" },
           {
             loader: MiniCssExtractPlugin.loader
           },
           {
-            loader: "css-loader" // translates CSS into CommonJS
+            loader: "css-loader", // translates CSS into CommonJS
+            options: {
+              modules: true,
+              localIdentName: '[name]__[local]'
+            }
           }, {
             loader: "less-loader" // compiles Less to CSS
         }]

@@ -7,7 +7,7 @@ import styles from './index.less';
 export default class Entry extends Component {
   render () {
     return (
-      <div className={styles['first']}>
+      <div className={styles.first}>
         Hello world
       </div>
     );
