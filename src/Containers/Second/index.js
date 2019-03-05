@@ -1,17 +1,27 @@
 import React, { Component } from 'react';
-import {
-  Link
-} from "react-router-dom";
+import Child from './Child.js';
 /**
  * 中文说明目标
  */
 
 export default class Second extends Component {
+
+  state = {
+    value: 1
+  }
+
+  onClick = () => {
+    this.state.value = 2;
+    console.log('onClick', this.state.value);
+    this.forceUpdate();
+  }
   render () {
+    console.log(this.state);
     return (
-      <div>
+      <div onClick={this.onClick}>
         Second Practice
-        <Link to={'/'}>go back</Link>
+        {this.state.value}
+        <Child childName='Cchild'/>
       </div>
     );
   }

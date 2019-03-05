@@ -5,7 +5,7 @@ import {
   Switch
 } from "react-router-dom";
 // import Loadable from 'react-loadable';
-import App from '../Containers/App/index.js';
+import App from '../Containers/Second/index.js';
 // import Step3 from '../Containers/Step3/index.js';
 
 // const Loading = () => <div>loading</div>

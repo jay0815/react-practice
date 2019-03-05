@@ -66,7 +66,7 @@ module.exports = {
     rules: [
       {
         test: /\.js$/,
-        exclude: /(node_modules)/,
+        exclude: /(node_modules)|(src\/[A-Za-z]+\/REDocument)/, // 过滤示例文件的加载，提升速度
         use: [{
           loader: 'babel-loader'
         }]
