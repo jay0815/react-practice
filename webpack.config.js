@@ -2,10 +2,22 @@ const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin")
+const autoprefixer = require('autoprefixer');
 
 module.exports = {
-  mode: 'development',
-  devtool: 'inline-source-map',
+  mode: 'production',
+  node: {
+    child_process: 'empty',
+    cluster: "empty",
+    dgram: "empty",
+    dns: "empty",
+    fs: "empty",
+    module: "empty",
+    net: "empty",
+    readline: "empty",
+    repl: "empty",
+    tls: "empty"
+  },
   entry: {
     // 文件入口配置
     index: [
@@ -13,9 +25,7 @@ module.exports = {
     ],
     vendor: [
       'react',
-      'react-dom',
-      'react-router-dom',
-      'react-loadable'
+      'react-dom'
     ]
   },
   output: {
@@ -24,8 +34,11 @@ module.exports = {
     // 输出目录的配置，模板、样式、脚本、图片等资源的路径配置都相对于它.
     publicPath: '/',
     // 模板、样式、脚本、图片等资源对应的server上的路径
-    filename: '[name].js'
+    filename: '[name].[hash].js'
     // 命名生成的JS
+  },
+  resolve: {
+    extensions: ['.js']
   },
   optimization: {
     splitChunks: {
@@ -39,6 +52,7 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: './Template/index.html',
       filename: 'index.html',
+      favicon: './Template/favicon.ico',
       chunks: ['vendor', 'index'],
       hash: false,
       showErrors: true,
@@ -48,28 +62,51 @@ module.exports = {
       }
     }),
     new webpack.DefinePlugin({
-      'process.env.NODE_ENV': JSON.stringify('development'),
+      // 'process.env.NODE_ENV': JSON.stringify('development'),
+      'process.env.NODE_ENV': JSON.stringify('production'),
       __DEV__: false
     }),
     new webpack.LoaderOptionsPlugin({
-      debug: true
+      debug: false
     }),
-    new webpack.HotModuleReplacementPlugin(),
     new MiniCssExtractPlugin({
       // Options similar to the same options in webpackOptions.output
       // both options are optional
       filename: "[name].css",
-      chunkFilename: "[id].css"
+      chunkFilename: "antd.css"
     })
   ],
   module: {
     rules: [
       {
         test: /\.js$/,
-        exclude: /(node_modules)|(src\/[A-Za-z]+\/REDocument)/, // 过滤示例文件的加载，提升速度
+        exclude: /(node_modules)/, // 过滤示例文件的加载，提升速度
         use: [{
           loader: 'babel-loader'
         }]
+      },
+      {
+        test: /\.css$/,
+        use: [
+          {
+            loader: MiniCssExtractPlugin.loader
+          },
+          {
+            loader: "css-loader", // translates CSS into CommonJS
+            options: {
+              modules: true,
+              localIdentName: '[local]___[hash:base64:5]'
+            }
+          },
+          {
+            loader: 'postcss-loader', // translates CSS into CommonJS
+            options: {
+              plugins: () => [autoprefixer({
+                browsers: ['last 2 versions', 'ie>8']
+              })]
+            }
+          }
+        ]
       },
       {
         test: /\.less$/,
@@ -82,19 +119,69 @@ module.exports = {
             loader: "css-loader", // translates CSS into CommonJS
             options: {
               modules: true,
-              localIdentName: '[name]__[local]'
+              localIdentName: '[path][name]__[local]'
             }
-          }, {
-            loader: "less-loader" // compiles Less to CSS
-        }]
-      }
+          },
+          {
+            loader: 'postcss-loader', // translates CSS into CommonJS
+            options: {
+              plugins: () => [autoprefixer({
+                browsers: ['last 2 versions', 'ie>8']
+              })]
+            }
+          },
+          {
+            loader: "less-loader"// compiles Less to CSS
+          }
+        ]
+      },
+			{
+				test: /\.less$/,
+				include: /node_modules/,
+        use: [
+          {
+            loader: MiniCssExtractPlugin.loader
+          },
+          {
+            loader: "css-loader" // translates CSS into CommonJS
+          },
+          {
+            loader: 'postcss-loader', // translates CSS into CommonJS
+            options: {
+              plugins: () => [autoprefixer({
+                browsers: ['last 2 versions', 'ie>8']
+              })]
+            }
+          },
+          {
+            loader: "less-loader", // compiles Less to CSS
+            options: {
+              javascriptEnabled: true
+            }
+          }
+        ]
+			},
+			{
+				test: /\.(otf|eot|ttf|woff|woff2).*$/,
+				use: [{
+					loader: 'url-loader?limit=10000'
+				}]
+			},
+			{
+				test: /\.(gif|jpe?g|png|ico)$/,
+				use: [{
+					loader: 'url-loader?limit=10000'
+				}]
+			},
+			{
+				test: /\.(svg).*$/i,
+				use: [{
+					loader: 'url-loader?limit=1',
+					options: {
+						name: '[path][name].[ext]'
+					}
+				}]
+			}
     ]
-  },
-  devServer: {
-    contentBase: path.join(__dirname, "dist"),
-    port: 5000,
-    open: 'Chrome',
-    hot: true,
-    historyApiFallback: true
   }
 };

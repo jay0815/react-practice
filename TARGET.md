@@ -14,7 +14,6 @@
 
 * 使用JSX语法，创建html模板变量并应用
   * 变量内容 h2 标签, 标签的innerHTML 为 `This is h2`
-
 * 创建一个有状态组件，并实现一个时钟功能：
   * 实时更新当前时间
   * 提供停止和启动按钮
@@ -38,36 +37,40 @@
 
 > redux、react-redux已预装完成，无需重新安装
 
-* 在`src/`下创建`reducer folder`
-  * `src/reducer`创建`third.js`
-    * 声明变量 `initialState`, 其值为`{ reason: 'no reason',nameList[] }`
+* 在`src/`下创建`Reducers`folder
+  * `src/Reducers`创建`third.js`
+    * 声明变量 `initialState`, 其值为`{ reason: 'no reason', nameList['mike', 'lily', 'aliga'] }`
     * 声明变量 `thirdState`, 其中要能支持对 `action.type === UPDATE_REASON` 的响应，其功能为改变state中reason的值
     * 对外导出 thirdState
-  * `src/reducer`创建`index.js`
+  * `src/Reducers`创建`index.js`
     * 导入 `thirdState`
     * 使用`combineReducers` 辅助函数处理 `thirdState`
   * 在`src/index.js` 中 为react应用绑定redux
+  * 为`src/Containers/Third/index.js` 绑定 `reason` `nameList`,并在页面上展示 `reason` 和 `nameList`
+* 在`src/`下创建`Actions`folder
+
 
 #### 第4步 (Redux): -> Third Folder(Part two)
 
 * 优化 reducer 结构
-  *
-* 在子组件中使用 history 对象
-  * 使用 withRouter 对 子组件进行包装，与 router 的 store 进行绑定
-  * 从父组件传值（history）给子组件
+  * 在`src/`下创建`util`folder
+  * `src/util`创建`index.js`
+  * 使用 [createReducer](https://www.redux.org.cn/docs/recipes/reducers/RefactoringReducersExample.html)优化 reducer组织机构
+  * 在`src/reducer/third.js` 中优化 `thirdState`的结构
 
 #### 第4步 (React-router): Fourth
 
 * 在src/Reducer zhon
 * 在Fourth/index.js 中使用
 * 在子组件中路由跳转功能
-  * ![`a`, `Link`, `NavLink`].includes(canUseTag) === true
+  * 要求：`![a, Link, NavLink].includes(canUseTag) === true`
 
 #### 第5步 (Redux-logger)
 
 * 接入`Redux-logger`
-  *
-  * 从父组件传值（history）给子组件
+  * 为 `createStore` 增加 `redux-logger` middleware
+  * 观察 `prev state` `action` `next state` , 体会flux 架构特点
+  * 增加逻辑, 当前`process.env.NODE_ENV` 为`production`时不引入该中间件
 
 #### 第7步(Render Callback): Second
 
