@@ -12,7 +12,7 @@ webpack@4.29.4
 ## Features
 
 - Run a project with no edit.
-- Zero package, edit free.
+- No encapsulation, edit more freely.
 
 ## Environment Support
 
@@ -37,3 +37,7 @@ npm start
 - [React](https://reactjs.org/docs/hello-world.html)
 - [Babel](https://babel.docschina.org/docs/en/usage)
 - [Webpack](https://webpack.js.org/concepts)
+
+## MORE DETAILS IN TARGET
+
+* modern browser
