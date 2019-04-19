@@ -1,13 +1,24 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import store from './Store/index.js';
 // AppContainer 是一个 HMR 必须的包裹(wrapper)组件
-import { AppContainer } from 'react-hot-loader';
-import RouterConfig from './Router/index.js'
+import {
+  AppContainer
+} from 'react-hot-loader';
+import RouterConfig from './Router/index.js';
+import {
+  Provider
+} from 'react-redux';
+
+console.log(store.getState());
+
 
 const render = (Component) => {
   ReactDOM.render(
-    <AppContainer>
-      <Component />
+    <AppContainer >
+      <Provider store = {store}>
+        <Component />
+      </Provider>
     </AppContainer>,
     document.getElementById('root'));
 };
