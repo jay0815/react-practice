@@ -29,6 +29,10 @@ module.exports = {
     filename: '[name].js'
     // 命名生成的JS
   },
+  resolve: {
+    // Add '.ts' and '.tsx' as resolvable extensions.
+    extensions: [".ts", ".tsx", ".js", ".json"]
+  },
   optimization: {
     splitChunks: {
       chunks: 'all',
@@ -66,6 +70,13 @@ module.exports = {
   ],
   module: {
     rules: [
+      {
+        test: /\.tsx$/,
+        exclude: /(node_modules)|(src\/[A-Za-z]+\/REDocument)/, // 过滤示例文件的加载，提升速度
+        use: [{
+          loader: 'ts-loader'
+        }]
+      },
       {
         test: /\.js$/,
         exclude: /(node_modules)|(src\/[A-Za-z]+\/REDocument)/, // 过滤示例文件的加载，提升速度
